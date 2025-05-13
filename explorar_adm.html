@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/img/logoicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/exploraradm.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="api.js"></script>
+    <title>Doe Aí - Explorar</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body style="background-color: #e6e5e5;">
+    <!-- início >> cabeçalho -->
+    <header class="d-flex pt-3 align-items-center justify-content-center">
+        <img class="logo1" src="assets/img/logo.png" alt="Logo da fundação 'Doe Aí'.">
+        <nav>
+            <div>
+                <a href="explorardoador.html" class="text-nav">PAINEL</a>
+            </div>
+        </nav>
+        <nav>
+            <div>
+                <a href="explorardoador.html" class="text-nav">HISTÓRICO</a>
+            </div>
+        </nav>
+        <button class="Btn">
+            <div class="sign">
+                <svg viewBox="0 0 512 512">
+                    <path
+                        d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z">
+                    </path>
+                </svg>
+            </div>
+            <div id="sair" class="text2">Logout</div>
+        </button>
+    </header>
+    <!-- end >> cabeçalho -->
+
+    <script>
+        $(document).ready(function () {
+            let token = localStorage.getItem("token");
+            let tipo = localStorage.getItem("tipo");
+
+            if (!token || tipo != 1) {
+                // Exibe o alerta e só redireciona depois que o usuário clicar "OK"
+                Swal.fire({
+                    title: "Erro",
+                    text: "Você não pode acessar essa página!",
+                    icon: "error",
+                    confirmButtonText: "OK"
+                }).then(() => {
+                    window.location.href = "login.html"; // Redireciona após o alerta
+                });
+            }
+        });
+    </script>
+    <main>
+        <div class="oii">
+            <div class="tit">
+                <h1 class="titulo">Feed</h1>
+                <h4 class="titulo2"> Visualize as postagens dos projetos e exclua, se necessário. </h4>
+            </div>
+            <img class="banner" src="assets/img/doadorfundo2.png">
+
+            <div class="azulescuro">
+
+                <div class="col-md-4">
+                    <h4 class="branco">Que tal explorar os projetos realizados? Fique por dentro de todos!</h4>
+                </div>
+
+                <div class="col-md-3 group2">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="search-icon2">
+                        <g>
+                            <path
+                                d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z">
+                            </path>
+                        </g>
+                    </svg>
+                    <input id="searchInput" class="input2" type="search" placeholder="Busque por ONGs..."
+                        name="searchbar" />
+                </div>
+
+                <div class="col-md-3">
+                    <button class="btn-pesquisar">Pesquisar</button>
+                </div>
+            </div>
+
+            <div class="cor-fund-cinz">
+                <h2 class="esp-left"></h2>
+                <!-- <div id="carouselExampleIndicators" class="carousel slide">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div> -->
+                <div class="exibe_ongs" id="exibe_ongs"></div>
+
+                <div class="no-products" style="display: none; text-align: center;">
+                    <h5 class="noeh5">Nenhuma ONG encontrada.</h5>
+                </div>
+            </div>
+
+            <div class="fundo" id="post-exibir">
+                <!-- <div class="post-container"> -->
+                <!-- Cabeçalho da publicação -->
+                <!-- <div class="post-header">
+                    <img class="profile-img" src="assets/img/130.jpeg" alt="Foto de perfil">
+                    <div class="post-info">
+                        <p class="post-author">ESPAÇO KIDS FUN</p>
+                        <p class="post-date">Publicado em 5 de maio de 2025 às 14:30</p>
+                    </div>
+                </div> -->
+
+                <!-- Corpo da publicação -->
+                <!-- <div class="post-content">
+                    <p class="post-text">O projeto "Inglês para o Futuro" é uma iniciativa da ONG "Esperança Infantil", que oferece aulas de inglês gratuitas para crianças de 8 a 12 anos em comunidades carentes. O objetivo do projeto é proporcionar aos pequenos uma oportunidade de aprender um novo idioma, ampliando suas possibilidades de acesso a informações e oportunidades no futuro. As aulas são ministradas por voluntários especializados, utilizando métodos lúdicos e interativos, como jogos, músicas e atividades práticas, para tornar o aprendizado mais dinâmico e divertido.</p>
+                    <img class="post-image" src="assets/img/ing.jpg" alt="Imagem da publicação">
+                </div>
+
+                <div style="display: flex; gap: 30px; justify-content: center;">
+                    <button
+                        style="background-color:#082C5B; display: flex; align-items: center; justify-content: center; padding: 10px; border-radius: 10px; height: 79px;"
+                        id="btn">
+                        <img src="assets/img/excluirbranco.png" style="width: 50px; height: 50px;">
+                        <p class="display_flex centralizado"
+                            style="margin: 0; display: flex; align-items: center; justify-content: center; height: 100%; color: white; padding-right: 15px;">
+                            EXCLUIR</p>
+                    </button>
+
+                    <a href=""
+                        style="background-color: #082C5B; padding: 8px; padding-top: 5px; padding-bottom: 5px; border-radius: 10px; align-items:center; justify-content: center;"
+                        class="display_flex align but centralizado">
+                        <button
+                            style="background-color:#082C5B; display: flex; align-items: center; justify-content: center; padding: 10px; height: 70px;">
+                            <img src="assets/img/editarbranco.png" style="width: 50px; height: 50px;">
+                            <p class="display_flex centralizado"
+                                style="margin: 0; display: flex; align-items: center; justify-content: center; height: 100%; color: white; padding-right: 15px;">
+                                EDITAR</p>
+                        </button>
+                    </a>
+                </div> -->
+            </div>
+    </main>
+
+    <footer>
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-md-3 text-center">
+                    <img class="logo2 tam" src="assets/img/logo.png" alt="Logo da fundação 'Doe Aí'.">
+                </div>
+
+                <div class="col-md-2 col-12 text-center margin">
+                    <h5 class="pb-2 tam2">TELEFONE</h5>
+                    <h6 class="p-tt">(18) 99120-3762</h6>
+                </div>
+
+                <div class="col-md-2 col-12 text-center margin">
+                    <h5 class="pb-2 tam2">SOBRE NÓS</h5>
+                    <h6>• ONGs</h6>
+                    <h6 class="p-t">• Doações</h6>
+                </div>
+
+                <div class="col-md-5 text-center">
+                    <h5 class="pb-2 tam2">NOS ACOMPANHE</h5>
+                    <div class="space">
+                        <a href="https://www.facebook.com" target="_blank">
+                            <img class="imgfooter" src="assets/img/facebook.png" alt="Logo do Facebook.">
+                        </a>
+                        <a href="https://www.instagram.com" target="_blank">
+                            <img class="imgfooter" src="assets/img/instagram.png" alt="Logo do Instagram.">
+                        </a>
+                        <a href="https://www.youtube.com" target="_blank">
+                            <img class="imgfooter alt" src="assets/img/youtube.png" alt="Logo do Youtube.">
+                        </a>
+                        <a href="https://www.tiktok.com" target="_blank">
+                            <img class="imgfooter" src="assets/img/tik tok.png" alt="Logo do Tik Tok.">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-12 azul text-center">
+                    <h5 class="tam3">© 2025. Todos os direitos reservados.</h5>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        $(document).ready(function () {
+            var id_usuario = localStorage.getItem("id_usuario");
+            console.log("ID do usuário:", id_usuario);
+
+            var settings = {
+                "url": "http://192.168.1.118:5000/postagem_projeto_geral",
+                "method": "GET",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "success": function (retorno) {
+                    retorno.projetos.forEach((item) => {
+                        document.getElementById("post-exibir").innerHTML += `
+                            <div class="post-container">
+                                <div class="post-header">
+                                    <img class="profile-img" src="${ipPython}/static/uploads/Livros/${item.id_usuario}.jpeg" alt="Foto de perfil">
+                                    <div class="post-info">
+                                        <p class="post-author">${item.nome}</p>
+                                        <p class="post-date">${item.data_projeto}</p>
+                                    </div>
+                                </div>
+                    
+                                <div class="post-content">
+                                    <p class="post-text">${item.descricao}</p>
+                                    <img class="post-image" src="${ipPython}/static/uploads/Projetos/${item.id_projeto}.jpeg" alt="Imagem da publicação">
+                                </div>
+
+                                <div class="style1">
+                                    <button type="button" id="btn-excluir-projeto" onclick="botaoDeletarProjeto(${item.id_projeto})"
+                                        id="btn" class="style2">
+                                        <img src="assets/img/excluirbranco.png" class="img-btn-azul">
+                                        <p class="display_flex centralizado style3">
+                                            EXCLUIR</p>
+                                    </button>
+                                </div>
+                            </div>                            
+                        `
+                    })
+                }
+            };
+
+            $.ajax(settings).done(function (response) {
+                console.log(response);
+            });
+        })
+
+        function botaoDeletarProjeto(id_projeto) {
+            Swal.fire({
+                title: "Você deseja excluir mesmo essa postagem?",
+                text: "Excluindo essa postagem, não será possível recuperá-la.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Excluir",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: ipPython + "/postagem_projeto/" + id_projeto,
+                        type: "DELETE",
+                        contentType: "application/json",
+                        data: JSON.stringify({ "id_projeto": id_projeto }),
+                        success: function (response) {
+                            localStorage.removeItem("descricao");
+                            localStorage.removeItem("data_projeto");
+
+                            Swal.fire(
+                                "Excluído!",
+                                "Sua postagem foi excluída com sucesso.",
+                                "success"
+                            );
+
+                            setTimeout(() => {
+                                window.location.href = "perfil_ong.html";
+                            }, 2000);
+                        },
+                        error: function (xhr, status, error) {
+                            Swal.fire(
+                                "Erro!",
+                                "Houve um problema ao excluir sua postagem. Tente novamente.",
+                                "error"
+                            );
+                            console.error("Erro na exclusão:", xhr.responseText);
+                        }
+                    });
+                }
+            });
+        }
+
+        $("#sair").on("click", function () {
+            Swal.fire({
+                title: "Você deseja mesmo fazer logout?",
+                text: "Ao fazer logout a sua conta será deslogada. Você ainda poderá fazer login novamente.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sair",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // REMOVE TODAS AS INFORMAÇÕES DO LOCAL STORAGE
+                    localStorage.removeItem("id_usuario");
+                    localStorage.removeItem("e_mail");
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("nome");
+                    localStorage.removeItem("tipo");
+                    localStorage.removeItem("categoria");
+                    localStorage.removeItem("cep");
+                    localStorage.removeItem("chave_pix");
+                    localStorage.removeItem("cnpj");
+                    localStorage.removeItem("complemento");
+                    localStorage.removeItem("descricao_da_causa");
+                    localStorage.removeItem("endereco");
+                    localStorage.removeItem("facebook");
+                    localStorage.removeItem("instagram");
+                    localStorage.removeItem("nome_banco");
+                    localStorage.removeItem("nome_resp");
+                    localStorage.removeItem("num_agencia");
+                    localStorage.removeItem("num_conta");
+                    localStorage.removeItem("site_url");
+                    localStorage.removeItem("telefone");
+
+                    $.ajax({
+                        url: ipPython + "/logout",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(),
+                        success: function (response) {
+                            Swal.fire(
+                                "Logout feito com sucesso!",
+                                "Sua conta foi deslogada com sucesso.",
+                                "success"
+                            );
+                            setTimeout(() => {
+                                window.location.href = "login.html";
+                            }, 2000);
+                        },
+                        error: function (xhr, status, error) {
+                            Swal.fire(
+                                "Erro!",
+                                "Houve um problema ao deslogar do seu perfil. Tente novamente.",
+                                "error"
+                            );
+                            console.error("Erro no logout:", xhr.responseText);
+                        }
+                    });
+                }
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const searchInput = document.getElementById("searchInput");
+
+            searchInput.addEventListener("input", () => {
+                let query = searchInput.value.toLowerCase();
+                let produtos = document.querySelectorAll(".prod");
+
+                produtos.forEach(produto => {
+                    let nome = produto.querySelector(".descricao")?.textContent.toLowerCase() || "";
+                    let categoria = produto.querySelector(".categoria")?.textContent.toLowerCase() || "";
+
+                    if (nome.includes(query) || categoria.includes(query)) {
+                        produto.style.display = "flex";
+                    } else {
+                        produto.style.display = "none";
+                    }
+                });
+
+                let projetos = document.querySelectorAll(".post-container");
+
+                projetos.forEach(projeto => {
+                    let texto = projeto.querySelector(".post-text")?.textContent.toLowerCase() || "";
+                    projeto.style.display = texto.includes(query) ? "block" : "none";
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>
